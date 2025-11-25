@@ -1,0 +1,71 @@
+<!-- commencer.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Commencer un sport – Sportworldguide</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><div class="brand"><a href="index.html">Sportworldguide</a></div></div></header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Quel sport est fait pour vous ?</h2>
+      <p>Répondez à quelques questions simples.</p>
+    </section>
+
+    <section class="card">
+      <form id="quizForm" onsubmit="event.preventDefault(); suggestSport();">
+        <label>Objectif principal</label>
+        <select id="objectif">
+          <option value="cardio">Cardio</option>
+          <option value="force">Force</option>
+          <option value="souplesse">Souplesse</option>
+          <option value="equilibre">Équilibre</option>
+          <option value="detente">Détente</option>
+        </select>
+
+        <label>Préférence</label>
+        <select id="type">
+          <option value="collectif">Collectif</option>
+          <option value="individuel">Individuel</option>
+          <option value="peuimporte">Peu importe</option>
+        </select>
+
+        <label>Intensité</label>
+        <select id="intensite">
+          <option value="faible">Faible</option>
+          <option value="moyenne">Moyenne</option>
+          <option value="forte">Forte</option>
+        </select>
+
+        <button class="btn-primary" type="submit">Voir mon sport idéal</button>
+      </form>
+
+      <div id="suggestion" style="margin-top:12px;color:var(--accent);font-weight:700"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container"><small>© <span id="year5"></span> Sportworldguide</small></div></footer>
+  <script>
+    function suggestSport(){
+      const o=document.getElementById('objectif').value;
+      const t=document.getElementById('type').value;
+      const i=document.getElementById('intensite').value;
+      let res='Basketball';
+      if(o==='cardio' && t==='individuel') res='Course à pied';
+      else if(o==='cardio' && t==='collectif' && i==='forte') res='Football';
+      else if(o==='force') res='Musculation';
+      else if(o==='souplesse') res='Gymnastique';
+      else if(o==='equilibre') res='Yoga';
+      else if(o==='detente') res='Natation';
+      document.getElementById('suggestion').textContent = '🎯 Le sport conseillé : ' + res + ' — Clique pour en savoir plus.';
+      // redirect option:
+      // window.location.href = 'sport-detail.html?sport=' + res.toLowerCase().split(' ')[0];
+    }
+    document.getElementById('year5').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

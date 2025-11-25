@@ -1,0 +1,102 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sportworldguide – Tous les Sports</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Signature cachée -->
+  <!-- Site créé et développé par HOUNSOU SEZEHOUDE Arsène - 2025 -->
+</head>
+<body>
+    
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html">Sportworldguide</a>
+      </div>
+
+      <nav class="nav" id="mainNav">
+        <a href="index.html">Accueil</a>
+        <a href="sports.html">Tous les sports</a>
+        <a href="commencer.html">Commencer</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="credit.html">Crédits</a>
+        <a href="login.html" class="btn-outline">Connexion</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="ouvrir menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>Découvrez tous les sports du monde</h1>
+          <p>Apprenez les règles, trouvez votre sport idéal, suivez vos performances et restez motivé.</p>
+          <a href="sports.html" class="btn">Explorer les sports</a>
+        </div>
+
+        <div class="hero-photo">
+          <!-- Image par défaut (ton upload local) -->
+          <img src="/mnt/data/91D63D09-3750-445F-9F79-2A97B631CA3E.jpeg" alt="Photo Arsène">
+        </div>
+      </div>
+    </section>
+
+    <section class="features container">
+      <div class="card">
+        <h3>Guide complet</h3>
+        <p>Rules, équipement, vidéos et programmes débutants pour chaque sport.</p>
+      </div>
+      <div class="card">
+        <h3>Tableau de performance</h3>
+        <p>Suivez vos progrès et comparez vos séances.</p>
+      </div>
+      <div class="card">
+        <h3>Motivation & Coaching</h3>
+        <p>Citations, vidéos et challenges pour rester constant.</p>
+      </div>
+    </section>
+
+    <section class="container preview-sports">
+      <h2>Sports en vedette</h2>
+      <div class="grid" id="previewGrid">
+        <!-- Exemple de cartes; tu peux remplacer les images -->
+        <a class="sport-card" href="sport-detail.html?sport=football">
+          <img src="/mnt/data/91D63D09-3750-445F-9F79-2A97B631CA3E.jpeg" alt="Football">
+          <h4>Football</h4>
+        </a>
+
+        <a class="sport-card" href="sport-detail.html?sport=basketball">
+          <img src="images/basket.jpg" alt="Basketball">
+          <h4>Basketball</h4>
+        </a>
+
+        <a class="sport-card" href="sport-detail.html?sport=natation">
+          <img src="images/swim.jpg" alt="Natation">
+          <h4>Natation</h4>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section créateur -->
+    <section id="createur" class="container creator">
+      <h2>À propos du créateur</h2>
+      <p>Ce site web a été conçu et développé par <strong>HOUNSOU SEZEHOUDE Arsène</strong>. Contact : <a href="mailto:arsohounsou@gmail.com">arsohounsou@gmail.com</a></p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Sportworldguide | Créé par HOUNSOU SEZEHOUDE Arsène</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!-- sports.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tous les sports – Sportworldguide</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html">Sportworldguide</a></div>
+      <nav class="nav" id="mainNav2">
+        <a href="index.html">Accueil</a>
+        <a href="sports.html">Tous les sports</a>
+        <a href="commencer.html">Commencer</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="credit.html">Crédits</a>
+        <a href="login.html" class="btn-outline">Connexion</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle2" aria-label="menu">☰</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Liste des sports</h2>
+      <p>Choisis une catégorie et clique sur un sport pour voir les détails.</p>
+    </section>
+
+    <section class="categories">
+      <h3>Catégories</h3>
+      <div class="grid">
+        <a class="card" href="#collectifs">Sports Collectifs</a>
+        <a class="card" href="#individuels">Sports Individuels</a>
+        <a class="card" href="#combat">Sports de combat</a>
+        <a class="card" href="#aquatiques">Sports aquatiques</a>
+        <a class="card" href="#extremes">Sports extrêmes</a>
+        <a class="card" href="#athletisme">Athlétisme</a>
+      </div>
+    </section>
+
+    <section id="collectifs" style="margin-top:18px">
+      <h3>Sports collectifs</h3>
+      <div class="grid">
+        <a class="sport-card" href="sport-detail.html?sport=football">
+          <img src="/mnt/data/91D63D09-3750-445F-9F79-2A97B631CA3E.jpeg" alt="Football">
+          <h4>Football</h4>
+        </a>
+        <a class="sport-card" href="sport-detail.html?sport=basketball">
+          <img src="images/basket.jpg" alt="Basketball">
+          <h4>Basketball</h4>
+        </a>
+        <a class="sport-card" href="sport-detail.html?sport=volley">
+          <img src="images/volley.jpg" alt="Volley">
+          <h4>Volley-ball</h4>
+        </a>
+      </div>
+    </section>
+
+    <section id="individuels" style="margin-top:18px">
+      <h3>Sports individuels</h3>
+      <div class="grid">
+        <a class="sport-card" href="sport-detail.html?sport=natation">
+          <img src="images/swim.jpg" alt="Natation">
+          <h4>Natation</h4>
+        </a>
+        <a class="sport-card" href="sport-detail.html?sport=course">
+          <img src="images/run.jpg" alt="Course">
+          <h4>Course à pied</h4>
+        </a>
+        <a class="sport-card" href="sport-detail.html?sport=tennis">
+          <img src="images/tennis.jpg" alt="Tennis">
+          <h4>Tennis</h4>
+        </a>
+      </div>
+    </section>
+
+    <section style="margin-top:30px">
+      <h3>Tableau de performance (personnel)</h3>
+      <form id="perfForm" style="display:grid;gap:8px;max-width:700px">
+        <input name="nom" placeholder="Ton nom (ex: Arsène)">
+        <input name="sport" placeholder="Sport (ex: Basket)">
+        <input name="performance" placeholder="Stat / Résultat (ex: 18 pts)">
+        <select name="niveau">
+          <option value="Débutant">Débutant</option>
+          <option value="Intermédiaire">Intermédiaire</option>
+          <option value="Avancé">Avancé</option>
+        </select>
+        <button class="btn-primary" type="submit">Ajouter performance</button>
+      </form>
+
+      <div id="perfTable" style="margin-top:14px"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year2"></span> Sportworldguide | Créé par ArsèneHOUNSOU</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>document.getElementById('year2').textContent = new Date().getFullYear();</script>
+</body>
+</html>

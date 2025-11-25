@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Détails des Sports – Sportworldguide</title>
+
+  <!-- Signature cachée -->
+  <!-- Site créé et développé par HOUNSOU SEZEHOUDE Arsène - 2025 -->
+
+  <style>
+    :root{
+      --bg:#f4f7fb; --card:#fff; --muted:#6b7280;
+      --accent:#0b7fc4; --accent-2:#ff7a00;
+      --radius:12px;
+    }
+    [data-theme="dark"]{
+      --bg:#0b1116; --card:#071019; --muted:#9aa6b0; --accent:#2fb0ff; --accent-2:#ff9a3c;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif;background:var(--bg);color:var(--muted);line-height:1.45}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+    .brand{font-weight:800;color:var(--accent);font-size:20px}
+    .controls{display:flex;gap:10px;align-items:center}
+    .search{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.08);min-width:220px}
+    .select{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.08)}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:8px 12px;border-radius:10px}
+
+    /* grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:18px}
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(2,6,23,0.06);
+      transition:transform .18s, box-shadow .18s;
+      display:flex;flex-direction:column;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.12)}
+    .card img{width:100%;height:150px;object-fit:cover;display:block}
+    .card-body{padding:14px;flex:1;display:flex;flex-direction:column}
+    .card h3{margin:0 0 8px;color:var(--accent)}
+    .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .badge{background:rgba(11,127,196,0.08);color:var(--accent);padding:6px 8px;border-radius:8px;font-weight:600;font-size:13px}
+    .card p{flex:1;color:var(--muted)}
+    .card-footer{display:flex;gap:8px;align-items:center;margin-top:12px}
+    .link{color:var(--accent);text-decoration:none;font-weight:700}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+    .modal{background:var(--card);width:100%;max-width:900px;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(2,6,23,0.4)}
+    .modal .head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.06)}
+    .modal .content{display:grid;grid-template-columns:1fr 360px;gap:18px;padding:18px}
+    .modal img{width:100%;height:240px;object-fit:cover;border-radius:8px}
+    .close-btn{background:transparent;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
+
+    /* filters row */
+    .filters{display:flex;gap:12px;align-items:center;margin-top:8px}
+
+    /* table mini */
+    .perf-table{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.06);margin-top:18px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;text-align:left;border-bottom:1px solid rgba(0,0,0,0.06);font-size:14px;color:var(--muted)}
+    th{color:var(--accent);font-weight:700}
+
+    /* footer */
+    footer{padding:18px 0;text-align:center;color:var(--muted);margin-top:26px}
+
+    /* responsive */
+    @media(max-width:900px){
+      .modal .content{grid-template-columns:1fr}
+      .card img{height:160px}
+      .search{min-width:120px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="brand">SportUniverse — Détails complets</div>
+
+      <div class="controls">
+        <input id="search" class="search" placeholder="Rechercher un sport (ex: football)">
+        <select id="categoryFilter" class="select">
+          <option value="all">Toutes catégories</option>
+          <option value="collectif">Collectifs</option>
+          <option value="individuel">Individuels</option>
+          <option value="combat">Combat</option>
+          <option value="aquatique">Aquatique</option>
+          <option value="extrême">Extrême</option>
+        </select>
+
+        <button id="toggleTheme" class="btn-ghost">Mode sombre</button>
+        <button id="showPerf" class="btn">Tableau perf</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="grid" id="sportsGrid">
+        <!-- Cartes générées par JS -->
+      </section>
+
+      <!-- Tableau de performance simple -->
+      <section id="performance" class="perf-table" style="display:none">
+        <h3>Tableau de performance (local)</h3>
+        <form id="perfForm" style="display:flex;gap:8px;flex-wrap:wrap">
+          <input name="nom" placeholder="Nom (ex: Arsène)" required style="flex:1;min-width:140px;padding:8px;border-radius:8px">
+          <input name="sport" placeholder="Sport (ex: Football)" required style="flex:1;min-width:140px;padding:8px;border-radius:8px">
+          <input name="performance" placeholder="Stat (ex: 18 pts)" style="flex:1;min-width:120px;padding:8px;border-radius:8px">
+          <select name="niveau" style="padding:8px;border-radius:8px">
+            <option>Débutant</option><option>Intermédiaire</option><option>Avancé</option>
+          </select>
+          <button class="btn" type="submit">Ajouter</button>
+        </form>
+
+        <div id="perfList" style="margin-top:12px;overflow:auto"></div>
+      </section>
+
+    </main>
+
+    <footer>
+      <small>© <span id="year"></span> SportUniverse — Créé par <strong>HOUNSOU SEZEHOUDE Arsène</strong></small>
+    </footer>
+  </div>
+
+  <!-- Modal détail -->
+  <div id="modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="head">
+        <strong id="modalTitle">Titre</strong>
+        <div>
+          <button id="openVideo" class="btn-ghost" style="margin-right:8px">Ouvrir vidéo</button>
+          <button id="closeModal" class="close-btn" aria-label="Fermer">✕</button>
+        </div>
+      </div>
+      <div class="content">
+        <div>
+          <img id="modalImg" alt="image sport">
+          <h4>Description</h4>
+          <p id="modalDesc"></p>
+
+          <h4>Comment commencer</h4>
+          <ul id="modalStart"></ul>
+
+          <h4>Conseils</h4>
+          <ul id="modalTips"></ul>
+        </div>
+
+        <aside style="padding:6px">
+          <div style="background:rgba(11,127,196,0.06);padding:10px;border-radius:8px;margin-bottom:12px">
+            <strong>Équipement</strong>
+            <p id="modalEquip" style="margin:6px 0 0;color:var(--muted)"></p>
+          </div>
+
+          <div style="background:rgba(255,122,0,0.06);padding:10px;border-radius:8px">
+            <strong>Bénéfices</strong>
+            <p id="modalBenefits" style="margin:6px 0 0;color:var(--muted)"></p>
+          </div>
+
+          <div style="margin-top:12px">
+            <a id="detailLink" class="link" href="#">Voir page sport</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sports data (12 sports)
+    const SPORTS = [
+      {
+        key:'football', title:'Football', category:'collectif',
+        img:'/mnt/data/91D63D09-3750-445F-9F79-2A97B631CA3E.jpeg', // your uploaded image
+        description:'Sport collectif opposant deux équipes dont l’objectif est de marquer des buts.',
+        equip:'Ballon, crampons, protège-tibias, maillot.',
+        benefits:'Cardio / Endurance / Coordination / Travail d\'équipe',
+        start:['Commence par apprendre les passes et contrôles','Entraîne-toi au dribble et à la finition','Fais du footing pour améliorer ton endurance'],
+        tips:['Toujours t’échauffer 15-20 min','Hydrate-toi bien','Travaille ta vision du jeu'],
+        video:'https://www.youtube.com/watch?v=COZsX39Epv8'
+      },
+
+      {
+        key:'basketball', title:'Basketball', category:'collectif',
+        img:'/mnt/data/IMG_00DA1B92-C228-4D9C-A633-30A0D4628806.jpeg', // your uploaded image
+        description:'Sport collectif rapide basé sur le dribble et le tir dans un panier.',
+        equip:'Ballon de basket, chaussures adaptées, tenue.',
+        benefits:'Explosivité / Coordination / Agilité / Endurance',
+        start:['Apprendre le dribble de base','S’entraîner au tir à mi-distance et au lay-up','Travailler la vision de jeu'],
+        tips:['Travaille les deux mains','Améliore ton saut avec pliométrie','Fais des tirs sous fatigue'],
+        video:'https://www.youtube.com/watch?v=xb4JZVr3U9w'
+      },
+
+      {
+        key:'volley', title:'Volley-ball', category:'collectif',
+        img:'images/volley.jpg',
+        description:'Sport collectif où deux équipes s’affrontent au-dessus d’un filet pour faire tomber la balle.',
+        equip:'Ballon, genouillères, chaussures indoor.',
+        benefits:'Coordination / Détente / Réactivité',
+        start:['Apprendre la manchette et le service','Pratiquer la passe en équipe','Renforcer jambes et épaules'],
+        tips:['Position basse en défense','Travaille la passe de qualité','Sois attentif au placement'],
+        video:'https://www.youtube.com/watch?v=Ev_sFvb5vQ8'
+      },
+
+      {
+        key:'athletisme', title:'Athlétisme', category:'individuel',
+        img:'images/athletisme.jpg',
+        description:'Regroupe course, sauts et lancers - discipline fondamentale pour la condition physique.',
+        equip:'Chaussures de course, tenue légère.',
+        benefits:'Vitesse / Endurance / Force / Puissance',
+        start:['Choisir une discipline (sprint, endurance, saut)','Suivre un plan d’entraînement progressif','Travailler la technique avec coach'],
+        tips:['Échauffement complet','Repos entre séances intenses','Renforcement musculaire complémentaire'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'boxe', title:'Boxe', category:'combat',
+        img:'images/boxe.jpg',
+        description:'Sport de combat mêlant technique, puissance et endurance.',
+        equip:'Gants, protège-dents, bandages, casque pour sparring.',
+        benefits:'Force / Cardio / Réflexes / Discipline',
+        start:['Apprendre position et garde','Travail technique sur sac et pads','Commencer sparring léger en club'],
+        tips:['Améliore la mobilité de hanches','Soigne la respiration','Travaille la défense autant que l’attaque'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'natation', title:'Natation', category:'aquatique',
+        img:'images/swim.jpg',
+        description:'Sport complet en milieu aquatique, excellent pour la respiration et l’endurance.',
+        equip:'Maillot, lunettes, bonnet.',
+        benefits:'Endurance / Respiration / Tonification sans impact',
+        start:['Apprendre à flotter et respirer','Commencer par 20-30 min 3x/semaine','Travailler différentes nages'],
+        tips:['Progresser la distance progressivement','Technique de respiration prioritaire','Utiliser planches et palmes pour travailler'],
+        video:'https://www.youtube.com/watch?v=bpOSxM0rNPM'
+      },
+
+      {
+        key:'handball', title:'Handball', category:'collectif',
+        img:'images/handball.jpg',
+        description:'Sport collectif rapide basé sur des attaques et des défenses dynamiques.',
+        equip:'Ballon de hand, chaussures indoor, protections si besoin.',
+        benefits:'Cardio / Force du haut du corps / Coordination',
+        start:['Apprendre passes et réceptions','Travailler finition au but','Participer à des matches amicaux'],
+        tips:['Travaille la prise de balle','Améliore la finition en course','Communique constamment avec l’équipe'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'tennis', title:'Tennis', category:'individuel',
+        img:'images/tennis.jpg',
+        description:'Sport individuel ou en double, demandant technique et endurance.',
+        equip:'Raquette, chaussures tennis, balles.',
+        benefits:'Agilité / Coordination / Endurance / Réflexes',
+        start:['Apprendre la prise de raquette','Travailler coup droit et revers','Pratiquer service et déplacement latéral'],
+        tips:['Position de pieds sur chaque coup','Travaille la régularité','Fais des séances de cardio spécifique tennis'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'karate', title:'Karaté', category:'combat',
+        img:'images/karate.jpg',
+        description:'Art martial combinant techniques de frappe, katas et discipline mentale.',
+        equip:'Kimono, ceinture, protections pour assauts.',
+        benefits:'Force / Souplesse / Concentration',
+        start:['Apprendre positions et bases (kihon)','Pratiquer katas et technique','Commencer travail à deux en sécurité'],
+        tips:['Respecte gradation progressives','Travaille respiration et posture','Échauffe bien les articulations'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'rugby', title:'Rugby', category:'collectif',
+        img:'images/rugby.jpg',
+        description:'Sport collectif physique avec contacts et stratégie d’équipe.',
+        equip:'Ballon ovale, protège-dents, chaussures avec crampons.',
+        benefits:'Force / Endurance / Esprit d’équipe / Tactique',
+        start:['Apprendre placage et sécurité','Travailler position spécifique','Améliorer condition physique générale'],
+        tips:['Technique de plaquage sécurisée','Renforcement du tronc','Travail collectif tactique'],
+        video:'https://www.youtube.com/watch?v=example'
+      },
+
+      {
+        key:'surf', title:'Surf', category:'extrême',
+        img:'images/surf.jpg',
+        description:'Sport de glisse sur vagues, demandant équilibre, timing et lecture de l’océan.',
+        equip:'Planche, leash, combinaison (selon eau).',
+        benefits:'Équilibre / Force du haut du corps / Endurance',
+        start:['Apprendre la sécurité en mer','Commencer sur planches mousse en zone protégée','Prendre des cours avec moniteur'],
+        tips:['Connaître les conditions météo et marées','Respecter règles locales','Progresser graduellement'],
+        video:'https://www.youtube.com/watch?v=example'
+      }
+    ];
+
+    // RENDER
+    const grid = document.getElementById('sportsGrid');
+    const search = document.getElementById('search');
+    const filter = document.getElementById('categoryFilter');
+    const modal = document.getElementById('modal');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    function createCard(s){
+      const a = document.createElement('article');
+      a.className='card';
+      a.innerHTML = `
+        <img src="${s.img}" alt="${s.title}">
+        <div class="card-body">
+          <h3>${s.title}</h3>
+          <div class="meta">${s.category.charAt(0).toUpperCase()+s.category.slice(1)}</div>
+          <div class="badges">
+            <div class="badge">${s.benefits.split('/')[0]||'Santé'}</div>
+            <div class="badge">${s.benefits.split('/')[1]||''}</div>
+          </div>
+          <p>${s.description.length>140 ? s.description.slice(0,140)+'...' : s.description}</p>
+          <div class="card-footer">
+            <button class="btn" data-key="${s.key}">Voir plus</button>
+            <a href="sport-detail.html?sport=${s.key}" class="link">Page complète</a>
+          </div>
+        </div>
+      `;
+      return a;
+    }
+
+    function renderList(list){
+      grid.innerHTML='';
+      list.forEach(s=>grid.appendChild(createCard(s)));
+      // attach listeners
+      Array.from(document.querySelectorAll('.card .btn')).forEach(b=>{
+        b.addEventListener('click', ()=> openModal(b.dataset.key) );
+      });
+    }
+
+    // initial render
+    renderList(SPORTS);
+
+    // SEARCH / FILTER
+    function applyFilters(){
+      const q = search.value.trim().toLowerCase();
+      const c = filter.value;
+      let results = SPORTS.filter(s=>{
+        const matchesQuery = s.title.toLowerCase().includes(q) || s.description.toLowerCase().includes(q);
+        const matchesCategory = (c==='all') ? true : s.category===c;
+        return matchesQuery && matchesCategory;
+      });
+      renderList(results);
+    }
+    search.addEventListener('input', applyFilters);
+    filter.addEventListener('change', applyFilters);
+
+    // THEME
+    const toggleTheme = document.getElementById('toggleTheme');
+    const root = document.documentElement;
+    let dark = false;
+    toggleTheme.addEventListener('click', ()=>{
+      dark = !dark;
+      root.setAttribute('data-theme', dark ? 'dark' : 'light');
+      toggleTheme.textContent = dark ? 'Mode clair' : 'Mode sombre';
+    });
+
+    // MODAL
+    function openModal(key){
+      const s = SPORTS.find(x=>x.key===key);
+      if(!s) return;
+      document.getElementById('modalTitle').textContent = s.title;
+      document.getElementById('modalImg').src = s.img;
+      document.getElementById('modalDesc').textContent = s.description;
+      document.getElementById('modalEquip').textContent = s.equip;
+      document.getElementById('modalBenefits').textContent = s.benefits;
+      // build lists
+      const start = document.getElementById('modalStart'); start.innerHTML = ''; s.start.forEach(i=>{ const li=document.createElement('li'); li.textContent=i; start.appendChild(li);});
+      const tips = document.getElementById('modalTips'); tips.innerHTML=''; s.tips.forEach(i=>{ const li=document.createElement('li'); li.textContent=i; tips.appendChild(li);});
+      document.getElementById('detailLink').href = 'sport-detail.html?sport=' + s.key;
+      // open video in new tab by default
+      document.getElementById('openVideo').onclick = ()=> window.open(s.video,'_blank');
+      modal.style.display='flex';
+      modal.setAttribute('aria-hidden','false');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', ()=> {
+      modal.style.display='none';
+      modal.setAttribute('aria-hidden','true');
+    });
+
+    // Performance table (localStorage simple)
+    const perfKey = 'su_perf_v1';
+    const perfForm = document.getElementById('perfForm');
+    const perfList = document.getElementById('perfList');
+    const showPerf = document.getElementById('showPerf');
+    showPerf.addEventListener('click', ()=>{
+      const el = document.getElementById('performance');
+      el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+      renderPerf();
+    });
+
+    function getPerfs(){ return JSON.parse(localStorage.getItem(perfKey)||'[]'); }
+    function savePerfs(arr){ localStorage.setItem(perfKey, JSON.stringify(arr)); }
+    function renderPerf(){
+      const arr = getPerfs();
+      if(arr.length===0){ perfList.innerHTML = '<p style="color:var(--muted)">Aucune performance enregistrée.</p>'; return; }
+      let html = '<table><thead><tr><th>Nom</th><th>Sport</th><th>Stat</th><th>Niveau</th><th></th></tr></thead><tbody>';
+      arr.forEach((r,i)=> html += `<tr><td>${r.nom}</td><td>${r.sport}</td><td>${r.performance||''}</td><td>${r.niveau}</td><td><button data-i="${i}" class="btn-ghost" onclick="deletePerf(${i})">Supprimer</button></td></tr>`);
+      html += '</tbody></table>';
+      perfList.innerHTML = html;
+    }
+    function deletePerf(i){ const a=getPerfs(); a.splice(i,1); savePerfs(a); renderPerf(); }
+
+    perfForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const f = e.target;
+      const record = { nom: f.nom.value.trim(), sport: f.sport.value.trim(), performance: f.performance.value.trim(), niveau: f.niveau.value };
+      if(!record.nom || !record.sport) return alert('Remplis nom et sport');
+      const arr = getPerfs(); arr.push(record); savePerfs(arr); f.reset(); renderPerf(); alert('Performance ajoutée (local)');
+    });
+
+    // initial perf render
+    renderPerf();
+
+    // accessibility: close modal when click outside
+    modal.addEventListener('click', (ev)=>{
+      if(ev.target === modal) { modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }
+    });
+
+  </script>
+</body>
+</html>

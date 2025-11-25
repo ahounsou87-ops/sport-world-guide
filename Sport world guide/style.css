@@ -1,0 +1,68 @@
+/* style.css - design moderne et responsive */
+:root{
+  --primary:#0b7fc4;
+  --accent:#ff7a00;
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --muted:#6b7b86;
+  --radius:12px;
+  --container-width:1100px;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter, Arial, sans-serif;background:var(--bg);color:#0f1720;line-height:1.5}
+.container{max-width:var(--container-width);margin:0 auto;padding:20px}
+
+/* Header */
+.site-header{background:linear-gradient(90deg,var(--primary),#0b98d9);color:#fff}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px}
+.brand a{color:#fff;font-weight:700;font-size:20px;text-decoration:none}
+.nav{display:flex;gap:14px;align-items:center}
+.nav a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:8px}
+.nav a.btn-outline{border:1px solid rgba(255,255,255,0.25);padding:8px 12px}
+.nav-toggle{display:none;background:transparent;border:none;color:#fff;font-size:22px}
+
+/* Hero */
+.hero{padding:40px 0}
+.hero-inner{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+.hero-text{flex:1;min-width:260px}
+.hero-text h1{font-size:32px;margin-bottom:12px;color:#041a28}
+.hero-text p{color:var(--muted);margin-bottom:14px}
+.btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:600}
+.hero-photo img{width:260px;height:260px;border-radius:16px;object-fit:cover;box-shadow:0 10px 30px rgba(11,139,209,0.15);border:6px solid rgba(255,255,255,0.6)}
+
+/* Features */
+.features{display:flex;gap:18px;margin:26px 0}
+.card{flex:1;background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(12,23,40,0.06)}
+
+/* Grid sports */
+.preview-sports h2{margin:6px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.sport-card{display:block;background:var(--card);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 6px 18px rgba(12,23,40,0.06);transition:transform .25s}
+.sport-card img{width:100%;height:140px;object-fit:cover;display:block}
+.sport-card h4{padding:12px}
+
+/* Creator section */
+.creator{margin:22px 0;padding:18px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(12,23,40,0.04)}
+
+/* Footer */
+.site-footer{background:#0b1f2b;color:#fff;padding:18px 0;text-align:center;margin-top:28px}
+
+/* Table performance style */
+.performance-table{background:#fff;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(12,23,40,0.04);overflow:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #eef3f7}
+th{background:#f9fbfd}
+
+/* Forms & buttons */
+input,select,textarea{padding:10px;border-radius:8px;border:1px solid #e4eef6;width:100%}
+.btn-primary{background:var(--primary);color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+
+/* Responsive */
+@media(max-width:900px){
+  .hero-photo img{width:200px;height:200px}
+  .features{flex-direction:column}
+  .nav-toggle{display:block}
+  .nav{position:absolute;right:16px;top:66px;background:linear-gradient(180deg,#0b7fc4,#0b98d9);padding:10px;border-radius:8px;display:none;flex-direction:column}
+  .nav.show{display:flex}
+}

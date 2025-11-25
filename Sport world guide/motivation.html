@@ -1,0 +1,51 @@
+<!-- motivation.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Motivation – Sportworldguide</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html">Sportworldguide</a></div>
+      <nav class="nav">
+        <a href="index.html">Accueil</a>
+        <a href="sports.html">Tous les sports</a>
+        <a href="commencer.html">Commencer</a>
+        <a href="motivation.html">Motivation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Motivation sportive</h2>
+      <p>Des citations, vidéos et défis pour te booster chaque jour.</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Citation du jour</h3>
+        <p>"Commence où tu es. Utilise ce que tu as. Fais ce que tu peux."</p>
+      </div>
+
+      <div class="card">
+        <h3>Vidéos inspirantes</h3>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/2vjPBrBU-TM" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="card">
+        <h3>Défi hebdomadaire</h3>
+        <p>7 jours — 20 min par jour. Partage tes progrès dans ton tableau de performance.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer"><div class="container"><small>© <span id="year4"></span> SportUniverse | Créé par Arsène</small></div></footer>
+  <script>document.getElementById('year4').textContent = new Date().getFullYear();</script>
+</body>
+</html>
